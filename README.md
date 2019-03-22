@@ -2,7 +2,7 @@
 
 This package helps you to set up a new npm package blazing fast. Use eslint, prettier, babel and rollup with zero configuration.
 
-🛠 See [template folder](https://github.com/ProAI/packsy/template) for usage example and starter kit.
+🛠 See [packsy-starter](https://github.com/ProAI/packsy-starter) for usage example and starter kit.
 
 ## Installation
 
@@ -25,7 +25,7 @@ yarn add packsy
 
 ## Prettier and ESLint configs
 
-The package provides a default Prettier and ESLint configuration. See `.prettierrc.js` and `.eslintrc.js` in [template folder](https://github.com/ProAI/packsy/template) for usage.
+The package provides a default Prettier and ESLint configuration. See `.prettierrc.js` and `.eslintrc.js` in [packsy-starter](https://github.com/ProAI/packsy-starter) for usage.
 
 ## Development workflow (linked package)
 
