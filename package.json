@@ -23,7 +23,9 @@
     "eslint": "./src/scripts/lint.js"
   },
   "files": [
-    "src"
+    "src",
+    "eslint.js",
+    "prettier.js"
   ],
   "dependencies": {
     "@babel/cli": "^7.2.3",
