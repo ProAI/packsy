@@ -19,6 +19,7 @@
     "url": "https://github.com/ProAI/packsy/issues"
   },
   "bin": {
+    "eslint": "./src/scripts/lint.js",
     "packsy": "./src/scripts/packsy.js"
   },
   "files": [

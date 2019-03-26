@@ -1,5 +1,4 @@
-const path = require('path');
-const { fileExtensions } = require('../utils');
+const { rootDir, fileExtensions } = require('../utils');
 
 const scripts = `${fileExtensions.js}|${fileExtensions.ts}`;
 const nonScripts = Object.values(fileExtensions)
@@ -8,12 +7,10 @@ const nonScripts = Object.values(fileExtensions)
   })
   .join('|');
 
-const packsyDir = path.join(__dirname, '../..');
-
 // Notice: We don't need to resolveBin() packsy, because lint staged uses
 // npm-which internally to resolve binaries.
 const bin =
-  packsyDir === process.cwd() ? 'node ./src/scripts/packsy.js' : 'packsy';
+  rootDir === process.cwd() ? 'node ./src/scripts/packsy.js' : 'packsy';
 
 module.exports = {
   linters: {

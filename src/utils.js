@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const which = require('npm-which')(process.cwd());
+const rawWhich = require('npm-which');
 const readPkgUp = require('read-pkg-up');
 
 // all prettier supported file types
@@ -24,6 +24,8 @@ const { pkg, path: pkgPath } = readPkgUp.sync({
 
 const rootDir = path.dirname(pkgPath);
 const configDir = path.join(__dirname, 'config');
+
+const which = rawWhich(rootDir);
 
 function resolveBin(modName) {
   return which.sync(modName);
