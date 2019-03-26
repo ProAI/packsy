@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const spawn = require('cross-spawn');
 const rimraf = require('rimraf');
-const { pkg, resolveBin, rootDir, configDir } = require('../utils');
+const { pkg, resolveBin, pkgDir, configDir } = require('../utils');
 
 const customArgs = process.argv.slice(
   process.argv[2] === 'build' || process.argv[2] === 'prepublish' ? 3 : 2,
@@ -12,13 +12,13 @@ const customArgs = process.argv.slice(
 const formats = ['esm', 'cjs', 'umd', 'umd.min'];
 
 // Clear dist directory.
-rimraf.sync(path.join(rootDir, 'dist'));
-fs.mkdirSync(path.join(rootDir, 'dist'));
+rimraf.sync(path.join(pkgDir, 'dist'));
+fs.mkdirSync(path.join(pkgDir, 'dist'));
 
 // Link Flow library definitions if present.
-const flow = path.join(rootDir, 'src', 'index.js.flow');
+const flow = path.join(pkgDir, 'src', 'index.js.flow');
 if (fs.existsSync(flow)) {
-  const flowCopy = path.join(rootDir, 'dist', `${pkg.name}.cjs.js.flow`);
+  const flowCopy = path.join(pkgDir, 'dist', `${pkg.name}.cjs.js.flow`);
   fs.writeFileSync(flowCopy, "// @flow\n\nexport * from '../src';\n", 'utf8');
 }
 

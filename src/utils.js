@@ -22,22 +22,14 @@ const { pkg, path: pkgPath } = readPkgUp.sync({
   cwd: fs.realpathSync(process.cwd()),
 });
 
-const rootDir = path.dirname(pkgPath);
+const pkgDir = path.dirname(pkgPath);
+const packsyDir = path.join(__dirname, '..');
 const configDir = path.join(__dirname, 'config');
 
-const which = rawWhich(rootDir);
+const which = rawWhich(packsyDir);
 
 function resolveBin(modName) {
   return which.sync(modName);
-}
-
-function resolvePacksy() {
-  if (pkg.name === 'packsy') {
-    const packsyPath = path.join(process.cwd(), 'src/scripts/packsy.js');
-    return require.resolve(packsyPath).replace(process.cwd(), '.');
-  }
-
-  return resolveBin('packsy');
 }
 
 // Check package.json for unreverted changes that were needed for development.
@@ -79,10 +71,10 @@ function validatePkg() {
 }
 
 module.exports = {
-  rootDir,
+  pkgDir,
+  packsyDir,
   configDir,
   resolveBin,
-  resolvePacksy,
   pkg,
   fileExtensions,
   validatePkg,

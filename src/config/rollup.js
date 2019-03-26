@@ -6,14 +6,14 @@ const nodeResolve = require('rollup-plugin-node-resolve');
 const { terser } = require('rollup-plugin-terser');
 const { sizeSnapshot } = require('rollup-plugin-size-snapshot');
 const camelcase = require('lodash.camelcase');
-const { pkg, rootDir } = require('../utils');
+const { pkg, pkgDir } = require('../utils');
 const babelConfig = require('../config/babel');
 
 const capitalize = s => s[0].toUpperCase() + s.slice(1);
 
-const relativeRootDir = path.relative(process.cwd(), rootDir);
-const input = path.join(relativeRootDir, 'src/index.js');
-const distDir = path.join(relativeRootDir, 'dist');
+const relativePkgDir = path.relative(process.cwd(), pkgDir);
+const input = path.join(relativePkgDir, 'src/index.js');
+const distDir = path.join(relativePkgDir, 'dist');
 
 const peerDeps = Object.keys(pkg.peerDependencies || {});
 const deps = Object.keys(pkg.dependencies || {});

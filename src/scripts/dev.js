@@ -3,19 +3,19 @@ const fs = require('fs');
 const path = require('path');
 const spawn = require('cross-spawn');
 const rimraf = require('rimraf');
-const { resolveBin, rootDir, configDir } = require('../utils');
+const { resolveBin, pkgDir, configDir } = require('../utils');
 
 const customArgs = process.argv.slice(process.argv[2] === 'dev' ? 3 : 2);
-const relativeRootDir = path.relative(process.cwd(), rootDir);
+const relativePkgDir = path.relative(process.cwd(), pkgDir);
 
 // Clear lib directory.
-rimraf.sync(path.join(rootDir, 'lib'));
-fs.mkdirSync(path.join(rootDir, 'lib'));
+rimraf.sync(path.join(pkgDir, 'lib'));
+fs.mkdirSync(path.join(pkgDir, 'lib'));
 
 // Link Flow library definitions if present.
-const flow = path.join(rootDir, 'src', 'index.js.flow');
+const flow = path.join(pkgDir, 'src', 'index.js.flow');
 if (fs.existsSync(flow)) {
-  const flowCopy = path.join(rootDir, 'lib', 'index.js.flow');
+  const flowCopy = path.join(pkgDir, 'lib', 'index.js.flow');
   fs.writeFileSync(flowCopy, "// @flow\n\nexport * from '../src';\n", 'utf8');
 }
 
@@ -24,8 +24,8 @@ const args = [
   '--config-file',
   path.join(configDir, 'babel.js'),
   '--out-dir',
-  path.join(relativeRootDir, 'lib'),
-  path.join(relativeRootDir, 'src'),
+  path.join(relativePkgDir, 'lib'),
+  path.join(relativePkgDir, 'src'),
   ...customArgs,
 ];
 
