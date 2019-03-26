@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const which = require('which');
+const which = require('npm-which')(process.cwd());
 const readPkgUp = require('read-pkg-up');
 
 // all prettier supported file types
@@ -25,40 +25,8 @@ const { pkg, path: pkgPath } = readPkgUp.sync({
 const rootDir = path.dirname(pkgPath);
 const configDir = path.join(__dirname, 'config');
 
-function resolveBin(
-  modName,
-  { executable = modName, cwd = process.cwd() } = {},
-) {
-  let pathFromWhich;
-
-  try {
-    pathFromWhich = fs.realpathSync(which.sync(executable));
-  } catch (_error) {
-    // ignore _error
-  }
-
-  try {
-    const modPkgPath = require.resolve(`${modName}/package.json`);
-    const modPkgDir = path.dirname(modPkgPath);
-
-    // eslint-disable-next-line
-    const { bin } = require(modPkgPath);
-
-    const binPath = typeof bin === 'string' ? bin : bin[executable];
-    const fullPathToBin = path.join(modPkgDir, binPath);
-
-    if (fullPathToBin === pathFromWhich) {
-      return executable;
-    }
-
-    return fullPathToBin.replace(cwd, '.');
-  } catch (error) {
-    if (pathFromWhich) {
-      return executable;
-    }
-
-    throw error;
-  }
+function resolveBin(modName) {
+  return which.sync(modName);
 }
 
 function resolvePacksy() {

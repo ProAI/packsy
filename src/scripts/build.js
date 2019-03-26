@@ -36,7 +36,6 @@ const args = [
   '--raw',
   ...formats.map(format => {
     const formatArgs = [
-      'node',
       crossEnvBin,
       `BUILD_FORMAT=${format}`,
       rollupBin,

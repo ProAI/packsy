@@ -1,6 +1,5 @@
-const { resolvePacksy, fileExtensions } = require('../utils');
-
-const bin = resolvePacksy();
+const path = require('path');
+const { fileExtensions } = require('../utils');
 
 const scripts = `${fileExtensions.js}|${fileExtensions.ts}`;
 const nonScripts = Object.values(fileExtensions)
@@ -9,12 +8,19 @@ const nonScripts = Object.values(fileExtensions)
   })
   .join('|');
 
+const packsyDir = path.join(__dirname, '../..');
+
+// Notice: We don't need to resolveBin() packsy, because lint staged uses
+// npm-which internally to resolve binaries.
+const bin =
+  packsyDir === process.cwd() ? 'node ./src/scripts/packsy.js' : 'packsy';
+
 module.exports = {
   linters: {
     // Format and lint all javascript/typescript files.
-    [`*.+(${scripts})`]: [`node ${bin} format`, `node ${bin} lint`, 'git add'],
+    [`*.+(${scripts})`]: [`${bin} format`, `${bin} lint`, 'git add'],
     // Format only all other files.
-    [`*.+(${nonScripts})`]: [`node ${bin} format`, 'git add'],
+    [`*.+(${nonScripts})`]: [`${bin} format`, 'git add'],
   },
   // Ignore all dot files.
   ignore: ['.*'],
