@@ -19,7 +19,7 @@ if (fs.existsSync(flow)) {
   fs.writeFileSync(flowCopy, "// @flow\n\nexport * from '../src';\n", 'utf8');
 }
 
-const bin = resolveBin('@babel/cli', { executable: 'babel' });
+const bin = resolveBin('babel');
 const args = [
   '--config-file',
   path.join(configDir, 'babel.js'),
