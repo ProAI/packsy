@@ -1,6 +1,6 @@
 {
   "name": "packsy",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Start development of a package with pre-defined eslint, prettier, babel and rollup configuration",
   "author": "Markus Wetzel <markuswetzel@gmx.net>",
   "license": "MIT",
