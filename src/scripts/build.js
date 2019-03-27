@@ -5,9 +5,7 @@ const spawn = require('cross-spawn');
 const rimraf = require('rimraf');
 const { pkg, resolveBin, pkgDir, configDir } = require('../utils');
 
-const customArgs = process.argv.slice(
-  process.argv[2] === 'build' || process.argv[2] === 'prepublish' ? 3 : 2,
-);
+const customArgs = process.argv.slice(process.argv[2] === 'build' ? 3 : 2);
 
 const formats = ['esm', 'cjs', 'umd', 'umd.min'];
 

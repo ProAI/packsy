@@ -36,13 +36,19 @@ function resolveBin(modName) {
 function validatePkg() {
   const errors = [];
 
-  const mainEntry = `dist/${pkg.name}.cjs.js`;
-  if (pkg.main !== mainEntry) {
+  if (
+    pkg.main &&
+    (pkg.main.startsWith('lib') || pkg.main.startsWith('./lib'))
+  ) {
+    const mainEntry = `dist/${pkg.name}.cjs.js`;
     errors.push(`"main" field must be "${mainEntry}"`);
   }
 
-  const moduleEntry = `dist/${pkg.name}.esm.js`;
-  if (pkg.module !== moduleEntry) {
+  if (
+    pkg.module &&
+    (pkg.module.startsWith('lib') || pkg.module.startsWith('./lib'))
+  ) {
+    const moduleEntry = `dist/${pkg.name}.esm.js`;
     errors.push(`"module" field must be "${moduleEntry}"`);
   }
 
@@ -66,8 +72,10 @@ function validatePkg() {
       console.error(`Error in package.json: ${error}`);
     });
 
-    process.exit(1);
+    return false;
   }
+
+  return true;
 }
 
 module.exports = {

@@ -13,8 +13,8 @@ if (command === 'build') {
   require('./lint');
 } else if (command === 'precommit') {
   require('./precommit');
-} else if (command === 'prepublish') {
-  require('./prepublish');
+} else if (command === 'validate') {
+  require('./validate');
 } else {
   // eslint-disable-next-line no-console
   console.error(`Unknown command "${command}"`);
