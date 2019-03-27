@@ -14,7 +14,7 @@ if (!customArgs.includes('--no-write')) {
 
 // format all files if no files are specified
 if (yargsParser(args)._.length === 0) {
-  args.push(`**/*.+(${fileExtensions.join('|')})`);
+  args.push(`**/*.+(${Object.values(fileExtensions).join('|')})`);
 }
 
 const result = spawn.sync(bin, args, { stdio: 'inherit' });
