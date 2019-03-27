@@ -11,8 +11,8 @@ if (command === 'build') {
   require('./format');
 } else if (command === 'lint') {
   require('./lint');
-} else if (command === 'precommit') {
-  require('./precommit');
+} else if (command === 'pre-commit') {
+  require('./pre-commit');
 } else if (command === 'validate') {
   require('./validate');
 } else {

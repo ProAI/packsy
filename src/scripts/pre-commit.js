@@ -3,7 +3,7 @@ const path = require('path');
 const spawn = require('cross-spawn');
 const { resolveBin, validatePkg, configDir } = require('../utils');
 
-const customArgs = process.argv.slice(process.argv[2] === 'precommit' ? 3 : 2);
+const customArgs = process.argv.slice(process.argv[2] === 'pre-commit' ? 3 : 2);
 
 const isPackageJsonStaged = Boolean(
   spawn
