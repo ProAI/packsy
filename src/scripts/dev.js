@@ -2,22 +2,36 @@
 const fs = require('fs');
 const path = require('path');
 const spawn = require('cross-spawn');
-const rimraf = require('rimraf');
-const { resolveBin, pkgDir, configDir } = require('../utils');
+const {
+  pkg,
+  pkgDir,
+  resolveBin,
+  configDir,
+  copyFlowLibDef,
+  clearDirectory,
+} = require('../utils');
 
 const customArgs = process.argv.slice(process.argv[2] === 'dev' ? 3 : 2);
 const relativePkgDir = path.relative(process.cwd(), pkgDir);
 
-// Clear lib directory.
-rimraf.sync(path.join(pkgDir, 'lib'));
-fs.mkdirSync(path.join(pkgDir, 'lib'));
+// Clear dist and lib directory.
+clearDirectory('dist');
+clearDirectory('lib');
 
-// Link Flow library definitions if present.
-const flow = path.join(pkgDir, 'src', 'index.js.flow');
-if (fs.existsSync(flow)) {
-  const flowCopy = path.join(pkgDir, 'lib', 'index.js.flow');
-  fs.writeFileSync(flowCopy, "// @flow\n\nexport * from '../src';\n", 'utf8');
-}
+// Create entry files.
+fs.writeFileSync(
+  path.join(pkgDir, 'dist', `${pkg.name}.cjs.js`),
+  "module.exports = require('../lib/index.js');\n",
+  'utf8',
+);
+fs.writeFileSync(
+  path.join(pkgDir, 'dist', `${pkg.name}.esm.js`),
+  "module.exports = require('../lib/index.js');\n",
+  'utf8',
+);
+
+// Copy Flow library definitions.
+copyFlowLibDef();
 
 const bin = resolveBin('babel');
 const args = [

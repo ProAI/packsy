@@ -2,6 +2,8 @@ const fs = require('fs');
 const path = require('path');
 const rawWhich = require('npm-which');
 const readPkgUp = require('read-pkg-up');
+const rimraf = require('rimraf');
+const mkdirp = require('mkdirp');
 
 // all prettier supported file types
 const fileExtensions = {
@@ -32,25 +34,25 @@ function resolveBin(modName) {
   return which.sync(modName);
 }
 
-// Check package.json for unreverted changes that were needed for development.
+function clearDirectory(dir) {
+  const dirPath = path.join(pkgDir, dir);
+
+  rimraf.sync(dirPath);
+  mkdirp.sync(dirPath);
+}
+
+function copyFlowLibDef() {
+  // Copy Flow library definitions if present.
+  const flow = path.join(pkgDir, 'src', 'index.js.flow');
+
+  if (fs.existsSync(flow)) {
+    const filePath = path.join(pkgDir, 'dist', `${pkg.name}.cjs.js.flow`);
+    fs.writeFileSync(filePath, "// @flow\n\nexport * from '../src';\n", 'utf8');
+  }
+}
+
 function validatePkg() {
   const errors = [];
-
-  if (
-    pkg.main &&
-    (pkg.main.startsWith('lib') || pkg.main.startsWith('./lib'))
-  ) {
-    const mainEntry = `dist/${pkg.name}.cjs.js`;
-    errors.push(`"main" field must be "${mainEntry}"`);
-  }
-
-  if (
-    pkg.module &&
-    (pkg.module.startsWith('lib') || pkg.module.startsWith('./lib'))
-  ) {
-    const moduleEntry = `dist/${pkg.name}.esm.js`;
-    errors.push(`"module" field must be "${moduleEntry}"`);
-  }
 
   const deps = Object.assign({}, pkg.dependencies, pkg.devDependencies);
   Object.entries(deps).forEach(([name, version]) => {
@@ -85,5 +87,7 @@ module.exports = {
   resolveBin,
   pkg,
   fileExtensions,
+  clearDirectory,
+  copyFlowLibDef,
   validatePkg,
 };
