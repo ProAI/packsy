@@ -44,4 +44,7 @@ const args = [
 
 const result = spawn.sync(bin, args, { stdio: 'inherit' });
 
+// Automatically stage .size-snapshot.json
+spawn.sync('git', ['add', '.size-snapshot.json']);
+
 process.exit(result.status);
