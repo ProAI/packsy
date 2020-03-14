@@ -54,7 +54,7 @@ function copyFlowLibDef() {
 function validatePkg() {
   const errors = [];
 
-  const deps = Object.assign({}, pkg.dependencies, pkg.devDependencies);
+  const deps = { ...pkg.dependencies, ...pkg.devDependencies };
   Object.entries(deps).forEach(([name, version]) => {
     if (
       version.startsWith('file:') ||

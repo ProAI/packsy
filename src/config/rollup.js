@@ -8,7 +8,7 @@ const { terser } = require('rollup-plugin-terser');
 const { sizeSnapshot } = require('rollup-plugin-size-snapshot');
 const camelcase = require('lodash.camelcase');
 const { pkg, pkgDir } = require('../utils');
-const babelConfig = require('../config/babel');
+const babelConfig = require('./babel');
 
 const capitalize = s => s[0].toUpperCase() + s.slice(1);
 
@@ -94,7 +94,7 @@ function buildUMD(config) {
     // For umd only peer dependencies are external.
     external: makeExternalTest({ format: 'umd' }),
     plugins: [
-      babel(Object.assign({}, { exclude: /node_modules/ }, babelConfig)),
+      babel({ exclude: /node_modules/, ...babelConfig }),
       nodeResolve(),
       commonjs({ include: /node_modules/ }),
       json(),
