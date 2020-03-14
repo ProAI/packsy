@@ -1,9 +1,9 @@
 const path = require('path');
 const babel = require('rollup-plugin-babel');
-const replace = require('rollup-plugin-replace');
-const commonjs = require('rollup-plugin-commonjs');
-const nodeResolve = require('rollup-plugin-node-resolve');
-const json = require('rollup-plugin-json');
+const replace = require('@rollup/plugin-replace');
+const commonjs = require('@rollup/plugin-commonjs');
+const nodeResolve = require('@rollup/plugin-node-resolve');
+const json = require('@rollup/plugin-json');
 const { terser } = require('rollup-plugin-terser');
 const { sizeSnapshot } = require('rollup-plugin-size-snapshot');
 const camelcase = require('lodash.camelcase');

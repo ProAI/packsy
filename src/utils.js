@@ -20,7 +20,7 @@ const fileExtensions = {
 };
 
 // copied from https://github.com/kentcdodds/kcd-scripts/blob/master/src/utils.js
-const { pkg, path: pkgPath } = readPkgUp.sync({
+const { packageJson: pkg, path: pkgPath } = readPkgUp.sync({
   cwd: fs.realpathSync(process.cwd()),
 });
 

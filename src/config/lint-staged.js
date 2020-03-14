@@ -1,3 +1,4 @@
+const micromatch = require('micromatch');
 const { packsyDir, fileExtensions } = require('../utils');
 
 const scripts = `${fileExtensions.js}|${fileExtensions.ts}`;
@@ -21,13 +22,21 @@ function resolvePacksy() {
 
 const bin = resolvePacksy();
 
+function filterDotFiles(files) {
+  return micromatch.not(files, '.*').join(' ');
+}
+
 module.exports = {
-  linters: {
-    // Format and lint all javascript/typescript files.
-    [`*.+(${scripts})`]: [`${bin} format`, `${bin} lint`, 'git add'],
-    // Format only all other files.
-    [`*.+(${nonScripts})`]: [`${bin} format`, 'git add'],
+  // Format and lint all javascript/typescript files.
+  [`*.+(${scripts})`]: files => {
+    const filteredFiles = filterDotFiles(files);
+
+    return [`${bin} format ${filteredFiles}`, `${bin} lint ${filteredFiles}`];
   },
-  // Ignore all dot files.
-  ignore: ['.*'],
+  // Format only all other files.
+  [`*.+(${nonScripts})`]: files => {
+    const filteredFiles = filterDotFiles(files);
+
+    return [`${bin} format ${filteredFiles}`];
+  },
 };
