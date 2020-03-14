@@ -8,11 +8,7 @@ module.exports = {
   },
   rules: {
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
-    'react/require-default-props': [
-      'error',
-      {
-        ignoreFunctionalComponents: true,
-      },
-    ],
+    'react/jsx-props-no-spreading': 'off',
+    'react/require-default-props': 'off',
   },
 };
