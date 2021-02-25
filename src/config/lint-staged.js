@@ -3,9 +3,7 @@ const { packsyDir, fileExtensions } = require('../utils');
 
 const scripts = `${fileExtensions.js}|${fileExtensions.ts}`;
 const nonScripts = Object.values(fileExtensions)
-  .filter(value => {
-    return value !== fileExtensions.js && value !== fileExtensions.ts;
-  })
+  .filter((value) => value !== fileExtensions.js && value !== fileExtensions.ts)
   .join('|');
 
 function resolvePacksy() {
@@ -28,13 +26,13 @@ function filterDotFiles(files) {
 
 module.exports = {
   // Format and lint all javascript/typescript files.
-  [`*.+(${scripts})`]: files => {
+  [`*.+(${scripts})`]: (files) => {
     const filteredFiles = filterDotFiles(files);
 
     return [`${bin} format ${filteredFiles}`, `${bin} lint ${filteredFiles}`];
   },
   // Format only all other files.
-  [`*.+(${nonScripts})`]: files => {
+  [`*.+(${nonScripts})`]: (files) => {
     const filteredFiles = filterDotFiles(files);
 
     return [`${bin} format ${filteredFiles}`];
