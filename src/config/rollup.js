@@ -2,7 +2,7 @@ const path = require('path');
 const babel = require('rollup-plugin-babel');
 const replace = require('@rollup/plugin-replace');
 const commonjs = require('@rollup/plugin-commonjs');
-const nodeResolve = require('@rollup/plugin-node-resolve');
+const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const json = require('@rollup/plugin-json');
 const { terser } = require('rollup-plugin-terser');
 const { sizeSnapshot } = require('rollup-plugin-size-snapshot');
@@ -10,7 +10,7 @@ const camelcase = require('lodash.camelcase');
 const { pkg, pkgDir } = require('../utils');
 const babelConfig = require('./babel');
 
-const capitalize = s => s[0].toUpperCase() + s.slice(1);
+const capitalize = (s) => s[0].toUpperCase() + s.slice(1);
 
 const relativePkgDir = path.relative(process.cwd(), pkgDir);
 const input = path.join(relativePkgDir, 'src/index.js');
@@ -19,11 +19,11 @@ const distDir = path.join(relativePkgDir, 'dist');
 const peerDeps = Object.keys(pkg.peerDependencies || {});
 const deps = Object.keys(pkg.dependencies || {});
 
-const makeExternalTest = config => {
+const makeExternalTest = (config) => {
   const external = config.format === 'umd' ? peerDeps : deps.concat(peerDeps);
   const externalPattern = new RegExp(`^(${external.join('|')})($|/)`);
 
-  return id => {
+  return (id) => {
     const isDep = externalPattern.test(id);
 
     if (config.format === 'umd') {
@@ -98,7 +98,10 @@ function buildUMD(config) {
       nodeResolve(),
       commonjs({ include: /node_modules/ }),
       json(),
-      replace({ 'process.env.NODE_ENV': JSON.stringify(config.env) }),
+      replace({
+        values: { 'process.env.NODE_ENV': JSON.stringify(config.env) },
+        preventAssignment: true,
+      }),
       sizeSnapshot({ printInfo: false }),
       config.env === 'production' && terser(),
     ],
