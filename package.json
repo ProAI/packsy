@@ -23,8 +23,7 @@
     "packsy": "./src/scripts/packsy.js"
   },
   "scripts": {
-    "prepublishOnly": "node ./src/scripts/validate.js",
-    "postpublish": "git fetch --tags -f"
+    "prepublishOnly": "node ./src/scripts/validate.js"
   },
   "files": [
     "src",
