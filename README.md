@@ -38,6 +38,7 @@ Link the package as usual using yarn's or npm's `link`/`unlink` commands first. 
 - 🚚 [react-transporter](https://github.com/ProAI/react-transporter)
 - 🎨 [react-essentials](https://github.com/ProAI/react-essentials)
 - 📥 [react-stacks](https://github.com/ProAI/react-stacks)
+- 🏷️ [react-metadata](https://github.com/ProAI/react-metadata)
 - 🌍 [intlized-components](https://github.com/ProAI/intlized-components)
 - 🌟 [extended-components](https://github.com/ProAI/extended-components)
 
