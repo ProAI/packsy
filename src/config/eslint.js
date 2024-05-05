@@ -1,5 +1,11 @@
 module.exports = {
-  parser: 'babel-eslint',
+  parser: '@babel/eslint-parser',
+  parserOptions: {
+    requireConfigFile: false,
+    babelOptions: {
+      configFile: require.resolve('./babel.js'),
+    },
+  },
   extends: ['airbnb', 'prettier'],
   env: {
     browser: true,
