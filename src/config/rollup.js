@@ -1,11 +1,10 @@
 const path = require('path');
-const babel = require('rollup-plugin-babel');
+const babel = require('@rollup/plugin-babel');
 const replace = require('@rollup/plugin-replace');
 const commonjs = require('@rollup/plugin-commonjs');
 const { nodeResolve } = require('@rollup/plugin-node-resolve');
 const json = require('@rollup/plugin-json');
-const { terser } = require('rollup-plugin-terser');
-const { sizeSnapshot } = require('rollup-plugin-size-snapshot');
+const terser = require('@rollup/plugin-terser');
 const camelcase = require('lodash.camelcase');
 const { pkg, pkgDir } = require('../utils');
 const babelConfig = require('./babel');
@@ -47,10 +46,9 @@ function buildCJS() {
     // For cjs all dependencies are external.
     external: makeExternalTest({ format: 'cjs' }),
     plugins: [
-      babel(babelConfig),
+      babel({ ...babelConfig, babelHelpers: 'bundled' }),
       nodeResolve(),
       json(),
-      sizeSnapshot({ printInfo: false }),
     ],
   };
 }
@@ -65,10 +63,9 @@ function buildESM() {
     // For esm all dependencies are external.
     external: makeExternalTest({ format: 'esm' }),
     plugins: [
-      babel(babelConfig),
+      babel({ ...babelConfig, babelHelpers: 'bundled' }),
       nodeResolve(),
       json(),
-      sizeSnapshot({ printInfo: false }),
     ],
   };
 }
@@ -94,7 +91,11 @@ function buildUMD(config) {
     // For umd only peer dependencies are external.
     external: makeExternalTest({ format: 'umd' }),
     plugins: [
-      babel({ exclude: /node_modules/, ...babelConfig }),
+      babel({
+        ...babelConfig,
+        exclude: /node_modules/,
+        babelHelpers: 'bundled',
+      }),
       nodeResolve(),
       commonjs({ include: /node_modules/ }),
       json(),
@@ -102,7 +103,6 @@ function buildUMD(config) {
         values: { 'process.env.NODE_ENV': JSON.stringify(config.env) },
         preventAssignment: true,
       }),
-      sizeSnapshot({ printInfo: false }),
       config.env === 'production' && terser(),
     ],
   };

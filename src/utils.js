@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const rawWhich = require('npm-which');
-const readPkgUp = require('read-pkg-up');
+const { readPackageUpSync } = require('read-package-up');
 const rimraf = require('rimraf');
 const mkdirp = require('mkdirp');
 
@@ -20,7 +20,7 @@ const fileExtensions = {
 };
 
 // copied from https://github.com/kentcdodds/kcd-scripts/blob/master/src/utils.js
-const { packageJson: pkg, path: pkgPath } = readPkgUp.sync({
+const { packageJson: pkg, path: pkgPath } = readPackageUpSync({
   cwd: fs.realpathSync(process.cwd()),
 });
 
@@ -41,16 +41,6 @@ function clearDirectory(dir) {
   mkdirp.sync(dirPath);
 }
 
-function copyFlowLibDef() {
-  // Copy Flow library definitions if present.
-  const flow = path.join(pkgDir, 'src', 'index.js.flow');
-
-  if (fs.existsSync(flow)) {
-    const filePath = path.join(pkgDir, 'dist', `${pkg.name}.cjs.js.flow`);
-    fs.writeFileSync(filePath, "// @flow\n\nexport * from '../src';\n", 'utf8');
-  }
-}
-
 function validatePkg() {
   const errors = [];
 
@@ -69,7 +59,7 @@ function validatePkg() {
   });
 
   if (errors.length > 0) {
-    errors.forEach(error => {
+    errors.forEach((error) => {
       // eslint-disable-next-line no-console
       console.error(`Error in package.json: ${error}`);
     });
@@ -88,6 +78,5 @@ module.exports = {
   pkg,
   fileExtensions,
   clearDirectory,
-  copyFlowLibDef,
   validatePkg,
 };

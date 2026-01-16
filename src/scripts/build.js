@@ -1,12 +1,7 @@
 #!/usr/bin/env node
 const path = require('path');
 const spawn = require('cross-spawn');
-const {
-  resolveBin,
-  configDir,
-  copyFlowLibDef,
-  clearDirectory,
-} = require('../utils');
+const { resolveBin, configDir, clearDirectory } = require('../utils');
 
 const customArgs = process.argv.slice(process.argv[2] === 'build' ? 3 : 2);
 
@@ -15,22 +10,20 @@ const formats = ['esm', 'cjs', 'umd', 'umd.min'];
 // Clear dist directory.
 clearDirectory('dist');
 
-// Copy Flow library definitions.
-copyFlowLibDef();
-
 // Setup commands for building bundle concurrently.
 const crossEnvBin = resolveBin('cross-env');
 const rollupBin = resolveBin('rollup');
 const rollupArgs = [
   '--config',
   path.join(configDir, 'rollup.js'),
+  '--bundleConfigAsCjs',
   ...customArgs,
 ];
 
 const bin = resolveBin('concurrently');
 const args = [
   '--raw',
-  ...formats.map(format => {
+  ...formats.map((format) => {
     const formatArgs = [
       crossEnvBin,
       `BUILD_FORMAT=${format}`,

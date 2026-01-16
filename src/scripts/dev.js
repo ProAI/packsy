@@ -7,7 +7,6 @@ const {
   pkgDir,
   resolveBin,
   configDir,
-  copyFlowLibDef,
   clearDirectory,
 } = require('../utils');
 
@@ -29,9 +28,6 @@ fs.writeFileSync(
   "module.exports = require('../lib/index.js');\n",
   'utf8',
 );
-
-// Copy Flow library definitions.
-copyFlowLibDef();
 
 const bin = resolveBin('babel');
 const args = [

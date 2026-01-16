@@ -5,17 +5,12 @@ module.exports = {
       {
         targets: {
           browsers: '> 0.25%, ie 11, not dead',
-          node: 8,
+          node: 16,
         },
+        modules: false,
       },
     ],
     require.resolve('@babel/preset-react'),
-    require.resolve('@babel/preset-flow'),
-  ],
-  plugins: [
-    [
-      require.resolve('@babel/plugin-proposal-class-properties'),
-      { loose: false },
-    ],
+    require.resolve('@babel/preset-typescript'),
   ],
 };
