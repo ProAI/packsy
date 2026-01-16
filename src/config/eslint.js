@@ -13,22 +13,40 @@ module.exports = {
     es6: true,
   },
   rules: {
+    // eslint
+    'arrow-body-style': 'off',
+    'no-underscore-dangle': ['error', { allow: ['__typename'] }], // allow for graphql
+
+    // import
+    'import/prefer-default-export': 'off',
+    'import/extensions': [
+      'error',
+      'always',
+      {
+        pattern: {
+          js: 'never',
+          ts: 'never',
+          jsx: 'never',
+          tsx: 'never',
+        },
+      },
+    ],
+
+    // jsx-a11y
+    'jsx-a11y/anchor-is-valid': 'off',
+
+    // react
     'react/jsx-filename-extension': [
       'error',
       { extensions: ['.js', '.jsx', '.tsx'] },
     ],
-    'react/jsx-props-no-spreading': 'off',
-    'react/require-default-props': 'off',
-    'import/extensions': [
-      'error',
-      'ignorePackages',
-      {
-        js: 'never',
-        jsx: 'never',
-        ts: 'never',
-        tsx: 'never',
-      },
-    ],
+    'react/prop-types': 'off', // deprecated
+    'react/require-default-props': 'off', // deprecated
+    'react/jsx-props-no-spreading': 'off', // we can allow spreading, because objects are well defined by Flow
+    'react/jsx-one-expression-per-line': 'off', // conflict with prettier
+    'react/jsx-indent': 'off', // conflict with prettier
+    'react/jsx-wrap-multilines': 'off', // conflict with prettier
+    'react/jsx-closing-tag-location': 'off', // conflict with prettier
   },
   overrides: [
     {
